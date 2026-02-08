@@ -206,7 +206,9 @@ TEXT:
 
     save_to_sheet(update.effective_chat.id, data)
 
-    reply = f"""
+services_text = "\n- ".join(data["services"])
+
+reply = f"""
 📇 Visiting Card Details
 
 Name: {data['name']}
@@ -218,8 +220,9 @@ Website: {data['website']}
 Address: {data['address']}
 Industry: {data['industry']}
 Services:
-- {'\n- '.join(data['services'])}
+- {services_text}
 """
+
     await update.message.reply_text(reply)
 
 # ===================== FOLLOW-UP =====================
@@ -257,6 +260,7 @@ app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
 
 print("🚀 Bot is LIVE")
 app.run_polling()
+
 
 
 
