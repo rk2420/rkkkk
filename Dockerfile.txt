@@ -28,4 +28,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # ================= START BOT =================
-CMD ["python", "main1.py"]
+CMD ["python", "main.py"]
