@@ -257,3 +257,4 @@ app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
 
 print("🚀 Bot is LIVE")
 app.run_polling()
+
