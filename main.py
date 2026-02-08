@@ -248,9 +248,13 @@ Website: {context.user_data.get("website")}
 
 Explain:
 - What the company does
+- Revenue
 - Potential customers
 - Potential vendors
-Focus on India.
+- Focus on India
+- Latest News
+- Latest Innovation
+- Shareholders.
 """
 
     response = groq_client.chat.completions.create(
@@ -269,6 +273,7 @@ app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
 
 print("🚀 Bot is LIVE")
 app.run_polling()
+
 
 
 
