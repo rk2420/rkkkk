@@ -24,12 +24,12 @@ from groq import Groq
 # ===================== CONFIG =====================
 load_dotenv()
 
-BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 SHEET_ID = os.getenv("GOOGLE_SHEET_ID")
 MODEL_NAME = "llama-3.1-8b-instant"
 
-if not BOT_TOKEN:
+if not TELEGRAM_BOT_TOKEN:
     raise RuntimeError("TELEGRAM_BOT_TOKEN missing")
 
 logging.basicConfig(level=logging.INFO)
@@ -250,13 +250,14 @@ Focus on India.
     await update.message.reply_text(response.choices[0].message.content)
 
 # ===================== RUN =====================
-app = Application.builder().token(BOT_TOKEN).build()
+app = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
 app.add_handler(CommandHandler("start", start))
 app.add_handler(MessageHandler(filters.PHOTO, handle_image))
 app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
 
 print("🚀 Bot is LIVE")
 app.run_polling()
+
 
 
 
