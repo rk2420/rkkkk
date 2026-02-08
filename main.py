@@ -208,6 +208,8 @@ TEXT:
 
 services_text = "\n- ".join(data["services"])
 
+services_text = "\n- ".join(data["services"])
+
 reply = f"""
 📇 Visiting Card Details
 
@@ -223,7 +225,7 @@ Services:
 - {services_text}
 """
 
-    await update.message.reply_text(reply)
+await update.message.reply_text(reply)
 
 # ===================== FOLLOW-UP =====================
 async def handle_text(update: Update, context):
@@ -260,6 +262,7 @@ app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
 
 print("🚀 Bot is LIVE")
 app.run_polling()
+
 
 
 
