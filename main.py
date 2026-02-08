@@ -145,7 +145,7 @@ async def start(update: Update, context):
 
 # ===================== IMAGE HANDLER =====================
 async def handle_image(update: Update, context):
-    await update.message.reply_text("📸 Image received. Processing...")
+    await update.message.reply_text("📸 Image received. Processing..........")
 
     photo = update.message.photo[-1]
     file = await photo.get_file()
@@ -155,9 +155,15 @@ async def handle_image(update: Update, context):
     img = cv2.resize(img, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     gray = cv2.bilateralFilter(gray, 11, 17, 17)
-    thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
+    thresh = cv2.threshold(
+        gray, 0, 255,
+        cv2.THRESH_BINARY + cv2.THRESH_OTSU
+    )[1]
 
-    ocr_text = pytesseract.image_to_string(thresh, config="--oem 3 --psm 6")
+    ocr_text = pytesseract.image_to_string(
+        thresh,
+        config="--oem 3 --psm 6"
+    )
     cleaned = clean_text(ocr_text)
 
     phone = extract_phone(cleaned)
@@ -186,7 +192,9 @@ TEXT:
     parsed = safe_json_load(ai_response)
 
     if not parsed:
-        await update.message.reply_text("⚠️ Could not extract data. Try clearer image.")
+        await update.message.reply_text(
+            "⚠️ Could not extract data. Try clearer image."
+        )
         return
 
     data = {
@@ -206,11 +214,10 @@ TEXT:
 
     save_to_sheet(update.effective_chat.id, data)
 
-services_text = "\n- ".join(data["services"])
+    # ✅ FIXED PART (MUST BE INSIDE FUNCTION)
+    services_text = "\n- ".join(data["services"])
 
-services_text = "\n- ".join(data["services"])
-
-reply = f"""
+    reply = f"""
 📇 Visiting Card Details
 
 Name: {data['name']}
@@ -225,7 +232,7 @@ Services:
 - {services_text}
 """
 
-await update.message.reply_text(reply)
+    await update.message.reply_text(reply)
 
 # ===================== FOLLOW-UP =====================
 async def handle_text(update: Update, context):
@@ -262,6 +269,7 @@ app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
 
 print("🚀 Bot is LIVE")
 app.run_polling()
+
 
 
 
